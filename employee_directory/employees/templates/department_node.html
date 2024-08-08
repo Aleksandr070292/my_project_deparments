@@ -1,0 +1,13 @@
+<li>
+    <span class="toggle" data-toggle="collapse" data-target="#dept-{{ department.id }}">{{ department.name }}</span>
+    <div id="dept-{{ department.id }}" class="collapse">
+        <ul>
+            {% for employee in department.employees.all %}
+                <li>{{ employee.full_name }} - {{ employee.position }}</li>
+            {% endfor %}
+            {% for child in department.get_sub_departments %}
+                {% include 'department_node.html' with department=child %}
+            {% endfor %}
+        </ul>
+    </div>
+</li>

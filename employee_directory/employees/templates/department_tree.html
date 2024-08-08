@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Directory</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        ul {
+            list-style-type: none;
+        }
+        .toggle {
+            cursor: pointer;
+            margin-left: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Employee Directory</h1>
+    <ul>
+        {% for department in departments %}
+            <li>
+                <span class="toggle" data-toggle="collapse" data-target="#dept-{{ department.id }}">{{ department.name }}</span>
+                <div id="dept-{{ department.id }}" class="collapse">
+                    <ul>
+                        {% for employee in department.employees.all %}
+                            <li>{{ employee.full_name }} - {{ employee.position }}</li>
+                        {% endfor %}
+                        {% for child in department.get_sub_departments %}
+                            {% include 'department_node.html' with department=child %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
